@@ -1,5 +1,6 @@
 # PRA3006 
-# Exploring Drug Use in the Netherlands
+# How do the three most used drugs in the Netherlands (cannabis, MDMA, cocaine) affect metabolic pathways?
+Exploring Drug Use in the Netherlands
 
 How do the three most used drugs in the Netherlands (cannabis, MDMA, cocaine) affect metabolic pathways?
 
