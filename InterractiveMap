@@ -1,1 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dementia Prevalence Map</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .legend {
+            background: white;
+            padding: 10px;
+            line-height: 18px;
+            color: #555;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px;
+        }
+        .color-box {
+            width: 18px;
+            height: 18px;
+            display: inline-block;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Dementia Prevalence by Region (2010)</h2>
+    <div id="map" style="width: 100%; height: 600px;"></div>
 
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([20, 0], 2);
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+        }).addTo(map);
+
+        // Function to determine color based on prevalence
+        function getColor(prevalence) {
+            return prevalence > 0.06 ? '#800026' :
+                   prevalence > 0.05 ? '#BD0026' :
+                   prevalence > 0.04 ? '#E31A1C' :
+                   prevalence > 0.03 ? '#FC4E2A' :
+                   prevalence > 0.02 ? '#FD8D3C' :
+                   prevalence > 0.01 ? '#FEB24C' :
+                                       '#FFEDA0';
+        }
+
+        // SPARQL query to fetch data from Wikidata
+        var sparqlQuery = `
+        SELECT ?prevalence ?locationLabel ?pointInTime WHERE {
+          wd:Q83030 p:P1193 ?statement.
+          ?statement ps:P1193 ?prevalence;
+                     pq:P276 ?location;
+                     pq:P585 ?pointInTime.
+
+          SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+        }
+        ORDER BY ?pointInTime
+        `;
+
+        var endpointUrl = 'https://query.wikidata.org/sparql';
+
+        // Fetch data from Wikidata
+        $.ajax({
+            url: endpointUrl,
+            dataType: 'json',
+            data: {
+                query: sparqlQuery,
+                format: 'json'
+            },
+            success: function(data) {
+                var results = data.results.bindings;
+                var regionCoordinates = {
+                'Asia': [34.0479, 103.8198], // Center shifted towards mainland Asia
+                'Africa': [0.0, 20.0], // More central to the continent
+                'Europe': [54.5260, 25.0], // Shifted east for better centering
+                'Americas': [37.0902, -95.7129] // Centered more on Central America to balance North and South
+                };
+
+                results.forEach(function(result) {
+                    var location = result.locationLabel.value;
+                    var prevalence = parseFloat(result.prevalence.value);
+                    var coordinates = regionCoordinates[location];
+
+                    if (coordinates) {
+                        // Scale up the radius of the circles
+                        L.circle(coordinates, {
+                            color: getColor(prevalence),
+                            fillColor: getColor(prevalence),
+                            fillOpacity: 0.5,
+                            radius: 1000000  // Increased radius for larger circles
+                        }).bindPopup('<b>Location:</b> ' + location + '<br><b>Prevalence:</b> ' + prevalence)
+                          .addTo(map);
+                    }
+                });
+            },
+            error: function() {
+                alert('Failed to fetch data from Wikidata.');
+            }
+        });
+
+        // Add a legend to the map
+        var legend = L.control({position: 'topright'});
+
+        legend.onAdd = function(map) {
+            var div = L.DomUtil.create('div', 'legend');
+            div.innerHTML += '<b>Legend</b><br>';
+            div.innerHTML += '<div class="color-box" style="background-color: #800026"></div> > 0.06<br>';
+            div.innerHTML += '<div class="color-box" style="background-color: #BD0026"></div> 0.05 - 0.06<br>';
+            div.innerHTML += '<div class="color-box" style="background-color: #E31A1C"></div> 0.04 - 0.05<br>';
+            div.innerHTML += '<div class="color-box" style="background-color: #FC4E2A"></div> 0.03 - 0.04<br>';
+            div.innerHTML += '<div class="color-box" style="background-color: #FD8D3C"></div> 0.02 - 0.03<br>';
+            div.innerHTML += '<div class="color-box" style="background-color: #FEB24C"></div> 0.01 - 0.02<br>';
+            div.innerHTML += '<div class="color-box" style="background-color: #FFEDA0"></div> < 0.01<br>';
+            div.innerHTML += '<br><i>Size and colour indicates prevalence.</i>';
+            return div;
+        };
+
+        legend.addTo(map);
+    </script>
+</body>
+</html>
