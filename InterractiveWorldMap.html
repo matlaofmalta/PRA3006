@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dementia Prevalence Interactive Map</title>
+    <title>Dementia Prevalence Map</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
@@ -31,6 +31,8 @@
     <script>
         // Initialize the map
         var map = L.map('map').setView([20, 0], 2);
+        var originalView = { center: [20, 0], zoom: 2 }; // Store the original view
+        var zoomedIn = false; // Flag to track if the map is zoomed in
 
         // Add OpenStreetMap tiles
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -74,10 +76,10 @@
             success: function(data) {
                 var results = data.results.bindings;
                 var regionCoordinates = {
-                'Asia': [34.0479, 103.8198], // Center shifted towards mainland Asia
-                'Africa': [0.0, 20.0], // More central to the continent
-                'Europe': [54.5260, 25.0], // Shifted east for better centering
-                'Americas': [37.0902, -95.7129] // Centered more on Central America to balance North and South
+                    'Asia': [34.0479, 103.8198],
+                    'Africa': [0.0, 20.0],
+                    'Europe': [54.5260, 25.0],
+                    'Americas': [37.0902, -95.7129]
                 };
 
                 results.forEach(function(result) {
@@ -86,13 +88,24 @@
                     var coordinates = regionCoordinates[location];
 
                     if (coordinates) {
-                        // Scale up the radius of the circles
+                        // Create a circle and handle zoom toggle on click
                         L.circle(coordinates, {
                             color: getColor(prevalence),
                             fillColor: getColor(prevalence),
                             fillOpacity: 0.5,
-                            radius: 1000000  // Increased radius for larger circles
+                            radius: 1000000
                         }).bindPopup('<b>Location:</b> ' + location + '<br><b>Prevalence:</b> ' + prevalence)
+                          .on('click', function() {
+                              if (zoomedIn) {
+                                  // If already zoomed in, reset to the original view
+                                  map.setView(originalView.center, originalView.zoom);
+                                  zoomedIn = false;
+                              } else {
+                                  // Zoom into the region
+                                  map.setView(coordinates, 5); // Adjust zoom level as needed
+                                  zoomedIn = true;
+                              }
+                          })
                           .addTo(map);
                     }
                 });
