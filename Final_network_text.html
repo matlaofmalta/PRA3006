@@ -34,10 +34,54 @@
             max-width: 300px;
             display: none;
         }
+        .legend-box {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .legend-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .legend-item:last-child {
+            margin-bottom: 0;
+        }
+        .legend-color {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
     <div id="tooltip" class="tooltip"></div>
+    <div id="legend" class="legend-box">
+        <div class="legend-title">Legend</div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #ff5733;"></div>
+            <div>Dementia</div>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #3498db;"></div>
+            <div>Drug</div>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #2ecc71;"></div>
+            <div>Role/Function</div>
+        </div>
+    </div>
     <script>
         // Updated SPARQL query to fetch data with descriptions
         const sparqlQuery = `
