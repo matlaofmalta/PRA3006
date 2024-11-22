@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dementia</title>
+    <title>Dementia and Risk Factors</title>
     <style>
         /* General styling */
         body {
@@ -14,7 +14,7 @@
             color: #333;
         }
         header {
-            background-image: url('https://media.nature.com/lw767/magazine-assets/d41586-022-00971-1/d41586-022-00971-1_20284456.jpg?as=webp'); /* Replace with your image URL */
+            background-image: url('https://media.nature.com/lw767/magazine-assets/d41586-022-00971-1/d41586-022-00971-1_20284456.jpg?as=webp');
             background-size: cover;
             background-position: center;
             color: white;
@@ -61,29 +61,94 @@
             text-align: left;
             line-height: 1.6;
         }
+        .bubble-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+        .bubble {
+            display: inline-block;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            text-align: center;
+            vertical-align: middle;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s;
+            background-size: cover;
+            background-position: center;
+        }
+        .bubble:hover {
+            transform: scale(1.1);
+        }
+        .bubble span {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        .info-box {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        .info-box h2 {
+            margin: 0 0 10px;
+        }
+        .info-box p {
+            margin: 0;
+        }
+        .info-box .close {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            cursor: pointer;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin: 20px 0;
+            color: #6a0dad;
+        }
     </style>
 </head>
 <body>
-
-    <!-- Header with background image and title -->
+    <!-- Header -->
     <header>
-        <h1>Global Dementia</h1>
+        <h1>Global Dementia and Risk Factors</h1>
     </header>
 
-    <!-- Buttons below the title -->
+    <!-- Buttons -->
     <div class="button-container">
         <a href="https://d3js.org/" target="_blank">
             <button>Learn about current treatments</button>
         </a>
         <a href="https://www.example.com" target="_blank">
-            <button>Prevelance of Dementia</button>
+            <button>Prevalence of Dementia</button>
         </a>
         <a href="https://www.anotherexample.com" target="_blank">
             <button>Relevant Resources</button>
         </a>
     </div>
 
-    <!-- Centered content box -->
+    <!-- Content -->
     <div class="content-box">
         <h2>What is Dementia?</h2>
         <p>Dementia is a decline in cognitive abilities—such as thinking, memory, and reasoning—that significantly disrupts a person's daily life and routines.</p>
@@ -100,19 +165,76 @@
 
         <h2>What are the signs and symptoms of Dementia?</h2>
         <ul>
-            <li> Challenges in speaking, comprehending, expressing thoughts, or engaging in reading and writing </li> 
-            <li> Getting lost in well-known areas </li> 
-            <li> Difficulty managing finances or paying bills responsibly </li>
-            <li> Repeating the same questions </li>
-            <li> Using uncommon words to describe familiar objects </li>
-            <li> Taking extra time to accomplish routine daily tasks </li> 
-            <li> Losing enthusiasm for usual activities or events </li> 
-            <li> Experiencing hallucinations, delusions, or paranoia </li>
-            <li> Displaying impulsive behavior </li>
-            <li> Showing a lack of concern for others' feelings </li> 
-            <li> Experiencing balance issues and difficulties with movement </li> 
-        </ul> 
+            <li>Challenges in speaking, comprehending, expressing thoughts, or engaging in reading and writing</li>
+            <li>Getting lost in well-known areas</li>
+            <li>Difficulty managing finances or paying bills responsibly</li>
+            <li>Repeating the same questions</li>
+            <li>Using uncommon words to describe familiar objects</li>
+            <li>Taking extra time to accomplish routine daily tasks</li>
+            <li>Losing enthusiasm for usual activities or events</li>
+            <li>Experiencing hallucinations, delusions, or paranoia</li>
+            <li>Displaying impulsive behavior</li>
+            <li>Showing a lack of concern for others' feelings</li>
+            <li>Experiencing balance issues and difficulties with movement</li>
+        </ul>
     </div>
 
+    <!-- Bubbles Section -->
+    <h2 class="section-title">Risk factors for Dementia</h2>
+    <div class="bubble-container">
+        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Noun_depression_2686170.svg');" onclick="showInfo('Mental Depression', 'Mental depression significantly increases the risk of dementia.')">
+            <span>Mental Depression</span>
+        </div>
+        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/ISO_7001_PI_PF_055.svg');" onclick="showInfo('Old People', 'Age is a significant risk factor for dementia.')">
+            <span>Old People</span>
+        </div>
+        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Panic_attack_or_head_injury_2686185.svg');" onclick="showInfo('Cranial Trauma', 'Head injuries are linked to an increased risk of dementia.')">
+            <span>Cranial Trauma</span>
+        </div>
+        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Obesity-waist_circumference.svg');" onclick="showInfo('Obesity', 'Obesity is associated with higher risks of vascular dementia.')">
+            <span>Obesity</span>
+        </div>
+        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/ISO_7001_PI_PF_015.svg');" onclick="showInfo('Smoking', 'Smoking can increase vascular damage and dementia risk.')">
+            <span>Smoking</span>
+        </div>
+        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Do_not_drink_alcohol.svg');" onclick="showInfo('Alcohol Abuse', 'Excessive alcohol consumption damages brain cells, increasing dementia risk.')">
+            <span>Alcohol Abuse</span>
+        </div>
+        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Noun_Hearing_Loop_Hadi_Davodpour_28161.svg');" onclick="showInfo('Deafness', 'Hearing loss may lead to cognitive overload and dementia.')">
+            <span>Deafness</span>
+        </div>
+        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Glucose-day-english.svg');" onclick="showInfo('Diabetes', 'Uncontrolled diabetes increases the risk of vascular dementia.')">
+            <span>Diabetes</span>
+        </div>
+        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Sofa_-_Delapouite_-_game-icons.svg');" onclick="showInfo('Sedentary Lifestyle', 'Physical inactivity is a modifiable risk factor for dementia.')">
+            <span>Sedentary Lifestyle</span>
+        </div>
+        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Bully_-_The_Noun_Project.svg');" onclick="showInfo('Social Isolation', 'Lack of social interaction can contribute to cognitive decline.')">
+            <span>Social Isolation</span>
+        </div>
+        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Pollution_Noun_Project_6891198.svg');" onclick="showInfo('Air Pollution', 'Exposure to air pollutants can increase the risk of neurological damage.')">
+            <span>Air Pollution</span>
+        </div>
+        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Font_Awesome_5_solid_pills.svg');" onclick="showInfo('Overdose in Old People', 'Medication mismanagement can lead to cognitive decline.')">
+            <span>Overdose in Old People</span>
+        </div>
+        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/BloodVessels_icon.svg');" onclick="showInfo('Arterial Hypertension', 'High blood pressure increases the risk of vascular dementia.')">
+            <span>Arterial Hypertension</span>
+        </div>
+    </div>
+
+    <div id="info-box" class="info-box">
+        <span class="close" onclick="document.getElementById('info-box').style.display='none'">✖</span>
+        <h2 id="riskFactorName"></h2>
+        <p id="riskFactorDescription"></p>
+    </div>
+
+    <script>
+        function showInfo(title, description) {
+            document.getElementById('riskFactorName').innerText = title;
+            document.getElementById('riskFactorDescription').innerText = description;
+            document.getElementById('info-box').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
