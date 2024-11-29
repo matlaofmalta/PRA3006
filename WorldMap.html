@@ -8,6 +8,13 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+         body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
         .legend {
             background: white;
             padding: 10px;
@@ -15,6 +22,7 @@
             color: #555;
             box-shadow: 0 0 15px rgba(0,0,0,0.2);
             border-radius: 5px;
+            font-size: 14px; 
         }
         .color-box {
             width: 18px;
@@ -46,7 +54,6 @@
     </style>
 </head>
 <body>
-    <h2>Global Trends in Dementia: Regional Estimates Across Years</h2>
     <div id="buttons"></div> <!-- Buttons moved above the map -->
     <div id="map"></div>
 
