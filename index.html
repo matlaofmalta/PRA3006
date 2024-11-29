@@ -52,14 +52,10 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
-        .content-box h2, .content-box h3 {
+        .content-box h2 {
             text-align: left;
             margin-top: 20px;
             color: #6a0dad;
-        }
-        .content-box p {
-            text-align: left;
-            line-height: 1.6;
         }
         .bubble-container {
             display: flex;
@@ -103,30 +99,49 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            background-color: white;
             padding: 20px;
-            border: 1px solid #ddd;
-            background-color: #fff;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
             z-index: 1000;
         }
         .info-box h2 {
+            color: #6a0dad;
             margin: 0 0 10px;
         }
         .info-box p {
             margin: 0;
+            line-height: 1.6;
         }
         .info-box .close {
             position: absolute;
-            top: 5px;
+            top: 10px;
             right: 10px;
             cursor: pointer;
+            font-size: 20px;
+            color: #333;
         }
-        .section-title {
-            text-align: center;
-            font-size: 2rem;
-            margin: 20px 0;
-            color: #6a0dad;
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
         }
+        .hidden {
+            display: none;
+        }
+        iframe {
+    width: 100%;
+    height: 900px; /* Adjust as needed */
+    border: none;
+    zoom: 0.6; /* Decrease value to zoom out, e.g., 0.8 for 80% */
+}
     </style>
 </head>
 <body>
@@ -137,24 +152,18 @@
 
     <!-- Buttons -->
     <div class="button-container">
-        <a href="Final_network_text.html" target="_blank">
-            <button>Learn about current treatments</button>
-        </a>
-        <a href="WorldMap.html" target="_blank">
-            <button>Prevalence of Dementia</button>
-        </a>
-        <a href="https://www.anotherexample.com" target="_blank">
-            <button>Relevant Resources</button>
-        </a>
+        <button onclick="showPage('home')">Home</button>
+        <button onclick="showPage('treatments')">Learn about current treatments</button>
+        <button onclick="showPage('prevalence')">Prevalence of Dementia</button>
+        <button onclick="showPage('resources')">Relevant Resources</button>
     </div>
 
-    <!-- Content -->
-    <div class="content-box">
+    <!-- Default Content -->
+    <div id="home" class="content-box">
         <h2>What is Dementia?</h2>
         <p>Dementia is a decline in cognitive abilities—such as thinking, memory, and reasoning—that significantly disrupts a person's daily life and routines.</p>
 
         <h2>What are the different kinds of Dementia?</h2>
-        <p>Dementia arises from a gradual and irreversible loss of neurons and brain function, driven by various neurodegenerative disorders and contributing factors. At present, no cure exists for any form of dementia.</p>
         <ul>
             <li>Alzheimer's disease</li>
             <li>Frontotemporal dementia</li>
@@ -177,63 +186,99 @@
             <li>Showing a lack of concern for others' feelings</li>
             <li>Experiencing balance issues and difficulties with movement</li>
         </ul>
-    </div>
 
-    <!-- Bubbles Section -->
-    <h2 class="section-title">Risk factors for Dementia</h2>
-    <div class="bubble-container">
-        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Noun_depression_2686170.svg');" onclick="showInfo('Mental Depression', 'Mental depression significantly increases the risk of dementia.')">
-            <span>Mental Depression</span>
-        </div>
-        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/ISO_7001_PI_PF_055.svg');" onclick="showInfo('Old People', 'Age is a significant risk factor for dementia.')">
-            <span>Old People</span>
-        </div>
-        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Panic_attack_or_head_injury_2686185.svg');" onclick="showInfo('Cranial Trauma', 'Head injuries are linked to an increased risk of dementia.')">
-            <span>Cranial Trauma</span>
-        </div>
-        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Obesity-waist_circumference.svg');" onclick="showInfo('Obesity', 'Obesity is associated with higher risks of vascular dementia.')">
-            <span>Obesity</span>
-        </div>
-        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/ISO_7001_PI_PF_015.svg');" onclick="showInfo('Smoking', 'Smoking can increase vascular damage and dementia risk.')">
-            <span>Smoking</span>
-        </div>
-        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Do_not_drink_alcohol.svg');" onclick="showInfo('Alcohol Abuse', 'Excessive alcohol consumption damages brain cells, increasing dementia risk.')">
-            <span>Alcohol Abuse</span>
-        </div>
-        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Noun_Hearing_Loop_Hadi_Davodpour_28161.svg');" onclick="showInfo('Deafness', 'Hearing loss may lead to cognitive overload and dementia.')">
-            <span>Deafness</span>
-        </div>
-        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Glucose-day-english.svg');" onclick="showInfo('Diabetes', 'Uncontrolled diabetes increases the risk of vascular dementia.')">
-            <span>Diabetes</span>
-        </div>
-        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Sofa_-_Delapouite_-_game-icons.svg');" onclick="showInfo('Sedentary Lifestyle', 'Physical inactivity is a modifiable risk factor for dementia.')">
-            <span>Sedentary Lifestyle</span>
-        </div>
-        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Bully_-_The_Noun_Project.svg');" onclick="showInfo('Social Isolation', 'Lack of social interaction can contribute to cognitive decline.')">
-            <span>Social Isolation</span>
-        </div>
-        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Pollution_Noun_Project_6891198.svg');" onclick="showInfo('Air Pollution', 'Exposure to air pollutants can increase the risk of neurological damage.')">
-            <span>Air Pollution</span>
-        </div>
-        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Font_Awesome_5_solid_pills.svg');" onclick="showInfo('Overdose in Old People', 'Medication mismanagement can lead to cognitive decline.')">
-            <span>Overdose in Old People</span>
-        </div>
-        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/BloodVessels_icon.svg');" onclick="showInfo('Arterial Hypertension', 'High blood pressure increases the risk of vascular dementia.')">
-            <span>Arterial Hypertension</span>
+        <h2>Risk factors for Dementia</h2>
+        <div class="bubble-container">
+            <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Noun_depression_2686170.svg');" onclick="showInfo('Mental Depression', 'Mental depression significantly increases the risk of dementia.')">
+                <span>Mental Depression</span>
+            </div>
+            <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/ISO_7001_PI_PF_055.svg');" onclick="showInfo('Old People', 'Age is a significant risk factor for dementia.')">
+                <span>Old People</span>
+            </div>
+            <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Panic_attack_or_head_injury_2686185.svg');" onclick="showInfo('Cranial Trauma', 'Head injuries are linked to an increased risk of dementia.')">
+                <span>Cranial Trauma</span>
+            </div>
+            <div class="bubble" style="background-image: url('https://t3.ftcdn.net/jpg/02/77/17/62/360_F_277176206_LKFyesjjLlt1EpGWVJ8qf6uPOjyThiIt.jpg');" onclick="showInfo('Obesity', 'Obesity is associated with higher risks of vascular dementia.')">
+                <span>Obesity</span>
+            </div>
+            <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/ISO_7001_PI_PF_015.svg');" onclick="showInfo('Smoking', 'Smoking can increase vascular damage and dementia risk.')">
+                <span>Smoking</span>
+            </div>
+            <div class="bubble" style="background-image: url('https://www.pngkey.com/png/detail/119-1197351_alcohol-icon-alcoholic-drink.png');" onclick="showInfo('Alcohol Abuse', 'Excessive alcohol consumption damages brain cells, increasing dementia risk.')">
+                <span>Alcohol Abuse</span>
+            </div>
+            <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Noun_Hearing_Loop_Hadi_Davodpour_28161.svg');" onclick="showInfo('Deafness', 'Hearing loss may lead to cognitive overload and dementia.')">
+                <span>Deafness</span>
+            </div>
+            <div class="bubble" style="background-image: url('https://static.vecteezy.com/system/resources/previews/020/544/252/non_2x/diabetes-icon-design-free-vector.jpg');" onclick="showInfo('Diabetes', 'Uncontrolled diabetes increases the risk of vascular dementia.')">
+                <span>Diabetes</span>
+            </div>
+            <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Sofa_-_Delapouite_-_game-icons.svg');" onclick="showInfo('Sedentary Lifestyle', 'Physical inactivity is a modifiable risk factor for dementia.')">
+                <span>Sedentary Lifestyle</span>
+            </div>
+            <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Bully_-_The_Noun_Project.svg');" onclick="showInfo('Social Isolation', 'Lack of social interaction can contribute to cognitive decline.')">
+                <span>Social Isolation</span>
+            </div>
+            <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Pollution_Noun_Project_6891198.svg');" onclick="showInfo('Air Pollution', 'Exposure to air pollutants can increase the risk of neurological damage.')">
+                <span>Air Pollution</span>
+            </div>
+            <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/BloodVessels_icon.svg');" onclick="showInfo('Arterial Hypertension', 'High blood pressure increases the risk of vascular dementia.')">
+                <span>Arterial Hypertension</span>
+            </div>
         </div>
     </div>
 
-    <div id="info-box" class="info-box">
-        <span class="close" onclick="document.getElementById('info-box').style.display='none'">✖</span>
+    <!-- Treatments Content -->
+    <div id="treatments" class="content-box hidden">
+        <h2>Current Treatments for Dementia</h2>
+        <iframe src="https://matlaofmalta.github.io/PRA3006/Final_network_text.html"></iframe>
+    </div>
+
+    <!-- Prevalence Content -->
+    <div id="prevalence" class="content-box hidden">
+        <h2>Global Prevalence of Dementia</h2>
+        <iframe src="https://matlaofmalta.github.io/PRA3006/WorldMap.html"></iframe>
+    </div>
+
+    <!-- Resources Content -->
+    <div id="resources" class="content-box hidden">
+        <h2>Relevant Resources</h2>
+        <p>Here are some resources to learn more about dementia and its risk factors:</p>
+        <ul>
+            <li><a href="https://www.alz.org/" target="_blank">Alzheimer's Association</a></li>
+            <li><a href="https://www.who.int/news-room/fact-sheets/detail/dementia" target="_blank">WHO Fact Sheet on Dementia</a></li>
+        </ul>
+    </div>
+
+    <!-- Info Box -->
+    <div class="overlay" id="overlay" onclick="hideInfo()"></div>
+    <div class="info-box" id="info-box">
         <h2 id="riskFactorName"></h2>
         <p id="riskFactorDescription"></p>
+        <span class="close" onclick="hideInfo()">&times;</span>
     </div>
 
     <script>
+        // Function to show detailed information for risk factors
         function showInfo(title, description) {
             document.getElementById('riskFactorName').innerText = title;
             document.getElementById('riskFactorDescription').innerText = description;
             document.getElementById('info-box').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        // Function to hide the detailed info box
+        function hideInfo() {
+            document.getElementById('info-box').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        // Function to show the selected page
+        function showPage(pageId) {
+            const contentBoxes = document.querySelectorAll('.content-box');
+            contentBoxes.forEach(box => box.classList.add('hidden'));
+
+            document.getElementById(pageId).classList.remove('hidden');
         }
     </script>
 </body>
