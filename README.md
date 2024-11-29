@@ -1,10 +1,10 @@
 # PRA3006 Group 2
 
 ## User Instructions
-Open this HTML file in your preferred browser ""
+Open the following link in your preferred browser https://matlaofmalta.github.io/PRA3006/
 
 If this does not work:
-1. Open a new VS code window, click "**Clone Git Repository**".
+1. Open a new VS code window, and click "**Clone Git Repository**".
 2. Insert https://github.com/matlaofmalta/PRA3006.git into your VS code search bar.
 3. Right-click the "**index.html**" file and select "**Reveal in File Explorer**" to see the webpage.
 
