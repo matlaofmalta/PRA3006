@@ -1,4 +1,12 @@
 # PRA3006 Group 2
+
+# User Instructions
+Open this HTML in your preferred browser ""
+
+If this does not work, open a new VS code window, click "Clone Git Repository" and insert "https://github.com/matlaofmalta/PRA3006.git" into your VS code search bar.
+Then right-click the "index.html" file and select "Reveal in File Explorer" to see the webpage.
+
+
 # What are the relationships between Dementia and its associated symptoms and treatments, and how does the prevalence of this disease vary globally?
 
 Our webpage homepage starts by defining dementia and listing the different types that exist. It also delves into the signs and symptoms of dementia presented in an interactive manner and potential dementia risk factors.
