@@ -1,13 +1,15 @@
 Eleanor de Regnauld de Bellescize 
   e.deregnaulddebellescize@student.maastrichtuniversity.nl
+  GitHubUsername: eleanordrdb
   
 Mridula Pradeep
   m.pradeep@student.maastrichtuniversity.nl
+  GitHubUsername: matlaofmalta
 
 Marie Schneider
-  marie0225
   marie.schneider@student.maastrichtuniversity.nl
+  GitHubUsername: marie0225
 
 Tiyana Dakova
-  tiyansii
   t.dakova@student.maastrichtuniversity.nl
+  GitHubUsername: tiyansii
