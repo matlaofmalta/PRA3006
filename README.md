@@ -1,6 +1,7 @@
 # PRA3006 Group 2
+GitHub group repository link: https://github.com/matlaofmalta/PRA3006.git
 
-## User Instructions
+## User Instructions to access the Webpage
 Open the following link in your preferred browser https://matlaofmalta.github.io/PRA3006/
 
 If this does not work:
