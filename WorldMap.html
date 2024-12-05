@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dementia Prevalence Map</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=0.3">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Dementia Prevalence Map</title> <!-- Title of the document -->
+    <meta charset="utf-8"> <!-- Character encoding -->
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=0.3"> <!-- Viewport settings for responsive design -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" /> <!-- Link to Leaflet CSS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script> <!-- Link to Leaflet JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Link to jQuery -->
     <style>
-         body {
+        /* Basic styles for the body */
+        body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             color: #333;
         }
+        /* Styles for the legend */
         .legend {
             background: white;
             padding: 10px;
@@ -23,16 +25,19 @@
             border-radius: 5px;
             font-size: 18px; 
         }
+        /* Styles for the color boxes in the legend */
         .color-box {
             width: 18px;
             height: 18px;
             display: inline-block;
             margin-right: 5px;
         }
+        /* Styles for the buttons container */
         #buttons {
             text-align: center;
             margin-bottom: 10px;
         }
+        /* Styles for the buttons */
         #buttons button {
             padding: 10px 15px;
             margin: 5px;
@@ -42,10 +47,12 @@
             background-color: #f7f7f7;
             font-size: 18px;
         }
+        /* Styles for the active button */
         #buttons button.active {
             background-color: #4CAF50;
             color: white;
         }
+        /* Styles for the map container */
         #map {
             width: 100%;
             height: 600px;
@@ -53,14 +60,14 @@
     </style>
 </head>
 <body>
-    <div id="buttons"></div> <!-- Buttons moved above the map -->
-    <div id="map"></div>
+    <div id="buttons"></div> <!-- Container for year buttons -->
+    <div id="map"></div> <!-- Container for the map -->
 
     <script>
-        // Initialize the map
+        // Initialize the map centered at [20, 0] with zoom level 2
         var map = L.map('map').setView([20, 0], 2);
 
-        // Add OpenStreetMap tiles
+        // Add OpenStreetMap tiles to the map
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
         }).addTo(map);
@@ -79,6 +86,7 @@
         var dataByYear = {};
         var currentYear = '2015'; // Default year
 
+        // Coordinates for different regions
         var regionCoordinates = {
             'Asia': [34.0479, 103.8198],
             'Africa': [0.0, 20.0],
@@ -88,16 +96,19 @@
 
         // Function to update map based on selected year
         function updateMap(year) {
+            // Remove existing circles from the map
             map.eachLayer(function(layer) {
                 if (layer instanceof L.Circle) {
                     map.removeLayer(layer);
                 }
             });
 
+            // Get data for the selected year
             var yearData = dataByYear[year] || [];
             yearData.forEach(function(entry) {
                 var coordinates = regionCoordinates[entry.location];
                 if (coordinates) {
+                    // Add circles to the map based on prevalence
                     L.circle(coordinates, {
                         color: getColor(entry.prevalence),
                         fillColor: getColor(entry.prevalence),
@@ -113,23 +124,23 @@
         // Function to create buttons for each year
         function createButtons(years) {
             var buttonsDiv = document.getElementById('buttons');
-            buttonsDiv.innerHTML = '';
+            buttonsDiv.innerHTML = ''; // Clear existing buttons
             years.forEach(function(year) {
                 var button = document.createElement('button');
                 button.textContent = year;
                 button.dataset.year = year;
-                button.className = year === currentYear ? 'active' : '';
+                button.className = year === currentYear ? 'active' : ''; // Set active class for the current year
                 button.addEventListener('click', function() {
                     currentYear = this.dataset.year;
                     document.querySelectorAll('#buttons button').forEach(btn => btn.classList.remove('active'));
                     this.classList.add('active');
-                    updateMap(currentYear);
+                    updateMap(currentYear); // Update map when button is clicked
                 });
                 buttonsDiv.appendChild(button);
             });
         }
 
-        // SPARQL query
+        // SPARQL query to fetch dementia prevalence data
         var sparqlQuery = `
         SELECT ?prevalence ?locationLabel ?pointInTime WHERE {
             wd:Q131303235 p:P1193 ?statement.
@@ -143,7 +154,7 @@
 
         var endpointUrl = 'https://query.wikidata.org/sparql';
 
-        // Fetch data
+        // Fetch data from Wikidata
         $.ajax({
             url: endpointUrl,
             dataType: 'json',
@@ -155,6 +166,7 @@
                 var results = data.results.bindings;
                 var years = new Set();
 
+                // Process the fetched data
                 results.forEach(function(result) {
                     var year = result.pointInTime.value.split('-')[0];
                     years.add(year);
@@ -169,12 +181,12 @@
                     });
                 });
 
-                years = Array.from(years).sort();
-                createButtons(years);
-                updateMap(currentYear);
+                years = Array.from(years).sort(); // Sort years
+                createButtons(years); // Create buttons for each year
+                updateMap(currentYear); // Update map with default year
             },
             error: function() {
-                alert('Failed to fetch data from Wikidata.');
+                alert('Failed to fetch data from Wikidata.'); // Error handling
             }
         });
 
@@ -194,7 +206,7 @@
             return div;
         };
 
-        legend.addTo(map);
+        legend.addTo(map); // Add legend to the map
     </script>
 </body>
 </html>

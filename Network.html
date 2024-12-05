@@ -1,78 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dementia Drug Network</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- Metadata about the document -->
+    <meta charset="UTF-8"> <!-- Specifies the character encoding -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures proper scaling on different devices -->
+    <title>Dementia Drug Network</title> <!-- Title of the document -->
+    <script src="https://d3js.org/d3.v7.min.js"></script> <!-- Includes the D3.js library -->
     <style>
+        /* CSS styles for various elements */
         .node {
-            cursor: pointer;
+            cursor: pointer; /* Changes cursor to pointer when hovering over nodes */
         }
         body {
-            font-family: Arial, sans-serif;
+            font-family: Arial, sans-serif; /* Sets the font for the body */
             margin: 0;
             padding: 0;
-            color: #333;
+            color: #333; /* Text color */
         }
         .link {
             fill: none;
-            stroke: #999;
-            stroke-opacity: 0.6;
-            stroke-width: 1.5px;
+            stroke: #999; /* Link color */
+            stroke-opacity: 0.6; /* Link opacity */
+            stroke-width: 1.5px; /* Link width */
         }
         .muted {
-            opacity: 0.1;
+            opacity: 0.1; /* Reduced opacity for muted elements */
         }
         text {
-            font-size: 14px;
-            pointer-events: none;
+            font-size: 14px; /* Font size for text elements */
+            pointer-events: none; /* Disables pointer events on text */
         }
         .tooltip {
             position: absolute;
-            background-color: #f9f9f9;
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            pointer-events: none;
-            font-size: 14px;
-            max-width: 300px;
-            display: none;
+            background-color: #f9f9f9; /* Tooltip background color */
+            border: 1px solid #ccc; /* Tooltip border */
+            padding: 10px; /* Tooltip padding */
+            border-radius: 5px; /* Rounded corners for tooltip */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Tooltip shadow */
+            pointer-events: none; /* Disables pointer events on tooltip */
+            font-size: 14px; /* Tooltip font size */
+            max-width: 300px; /* Maximum width for tooltip */
+            display: none; /* Initially hides the tooltip */
         }
         .legend-box {
             position: absolute;
             top: 20px;
             right: 20px;
             padding: 10px;
-            background-color: #f9f9f9;
-            border: 2px solid #ccc;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9; /* Legend box background color */
+            border: 2px solid #ccc; /* Legend box border */
+            border-radius: 8px; /* Rounded corners for legend box */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Legend box shadow */
         }
         .legend-title {
-            font-weight: bold;
-            font-size: 16px;
-            margin-bottom: 10px;
+            font-weight: bold; /* Bold font for legend title */
+            font-size: 16px; /* Font size for legend title */
+            margin-bottom: 10px; /* Margin below legend title */
         }
         .legend-item {
             display: flex;
-            align-items: center;
-            margin-bottom: 5px;
+            align-items: center; /* Aligns items in legend item */
+            margin-bottom: 5px; /* Margin below each legend item */
         }
         .legend-item:last-child {
-            margin-bottom: 0;
+            margin-bottom: 0; /* Removes margin for the last legend item */
         }
         .legend-color {
             width: 18px;
             height: 18px;
-            margin-right: 8px;
-            border-radius: 3px;
+            margin-right: 8px; /* Margin to the right of legend color box */
+            border-radius: 3px; /* Rounded corners for legend color box */
         }
     </style>
 </head>
 <body>
+    <!-- Tooltip element -->
     <div id="tooltip" class="tooltip"></div>
+    <!-- Legend box with items -->
     <div id="legend" class="legend-box">
         <div class="legend-title">Legend</div>
         <div class="legend-item">
@@ -89,7 +93,7 @@
         </div>
     </div>
     <script>
-        // Updated SPARQL query to fetch data with descriptions
+        // SPARQL query to fetch data with descriptions
         const sparqlQuery = `
         SELECT ?drug ?drugLabel ?drugDescription ?role ?roleLabel ?roleDescription WHERE {
             ?drug wdt:P2175 wd:Q83030.  # P2175 is "medical condition treated" and Q83030 is "dementia"
@@ -107,7 +111,8 @@
 
         const endpointUrl = 'https://query.wikidata.org/sparql';
 
-        async function fetchData() {
+// Function to fetch data from the SPARQL endpoint
+async function fetchData() {
             const url = endpointUrl + '?query=' + encodeURIComponent(sparqlQuery);
             const response = await fetch(url, {
                 headers: {
@@ -118,181 +123,208 @@
             return data.results.bindings;
         }
 
-        fetchData().then(data => {
-            const nodes = [{ id: 'Dementia', group: 1, description: 'A cognitive disorder' }];
-            const links = [];
-            const roleNodes = [];
-            const drugNodes = [];
+       // Process the fetched data
+fetchData().then(data => {
+    // Initialize nodes array with a single node for 'Dementia'
+    const nodes = [{ id: 'Dementia', group: 1, description: 'A cognitive disorder' }];
+    const links = []; // Initialize links array
+    const roleNodes = []; // Initialize role nodes array
+    const drugNodes = []; // Initialize drug nodes array
 
-            data.forEach(item => {
-                const drug = item.drugLabel.value;
-                const drugDescription = item.drugDescription ? item.drugDescription.value : 'No description available';
-                const role = item.roleLabel ? item.roleLabel.value : null;
-                const roleDescription = item.roleDescription ? item.roleDescription.value : 'No description available';
+    // Iterate over each item in the fetched data
+    data.forEach(item => {
+        const drug = item.drugLabel.value; // Get drug label
+        const drugDescription = item.drugDescription ? item.drugDescription.value : 'No description available'; // Get drug description
+        const role = item.roleLabel ? item.roleLabel.value : null; // Get role label if available
+        const roleDescription = item.roleDescription ? item.roleDescription.value : 'No description available'; // Get role description if available
 
-                if (role) {
-                    if (!nodes.find(node => node.id === role)) {
-                        const roleNode = { id: role, group: 3, description: roleDescription };
-                        nodes.push(roleNode);
-                        roleNodes.push(roleNode);
-                        links.push({ source: 'Dementia', target: role });
-                    }
-                    if (!nodes.find(node => node.id === drug)) {
-                        const drugNode = { id: drug, group: 2, description: drugDescription };
-                        nodes.push(drugNode);
-                        drugNodes.push(drugNode);
-                        links.push({ source: role, target: drug });
-                    }
-                } else {
-                    if (!nodes.find(node => node.id === drug)) {
-                        const drugNode = { id: drug, group: 2, description: drugDescription };
-                        nodes.push(drugNode);
-                        drugNodes.push(drugNode);
-                        links.push({ source: 'Dementia', target: drug });
-                    }
-                }
-            });
-
-            const width = 1200, height = 900;
-
-            const svg = d3.select('body').append('svg')
-                .attr('width', width)
-                .attr('height', height);
-
-            const simulation = d3.forceSimulation(nodes)
-                .force('link', d3.forceLink(links).id(d => d.id).distance(150))
-                .force('charge', d3.forceManyBody().strength(-150))
-                .force('center', d3.forceCenter(width / 2, height / 2))
-                .stop();
-
-            const centerX = width / 2;
-            const centerY = height / 2;
-            const roleRadius = 250;
-            const drugRadius = 400;
-            const roleAngleStep = (2 * Math.PI) / roleNodes.length;
-            const drugAngleStep = (2 * Math.PI) / drugNodes.length;
-
-            roleNodes.forEach((node, i) => {
-                node.fx = centerX + roleRadius * Math.cos(i * roleAngleStep);
-                node.fy = centerY + roleRadius * Math.sin(i * roleAngleStep);
-            });
-
-            drugNodes.forEach((node, i) => {
-                node.fx = centerX + drugRadius * Math.cos(i * drugAngleStep);
-                node.fy = centerY + drugRadius * Math.sin(i * drugAngleStep);
-            });
-
-            simulation.nodes(nodes).on('tick', ticked).restart();
-
-            const link = svg.append('g')
-                .attr('class', 'links')
-                .selectAll('line')
-                .data(links)
-                .enter().append('line')
-                .attr('class', 'link');
-
-            const node = svg.append('g')
-                .attr('class', 'nodes')
-                .selectAll('circle')
-                .data(nodes)
-                .enter().append('circle')
-                .attr('class', 'node')
-                .attr('r', 10)
-                .attr('fill', d => d.group === 1 ? '#ff5733' : d.group === 2 ? '#3498db' : '#2ecc71')
-                .on('click', handleNodeClick)
-                .call(d3.drag()
-                    .on('start', dragstarted)
-                    .on('drag', dragged)
-                    .on('end', dragended));
-
-            const label = svg.append('g')
-                .attr('class', 'labels')
-                .selectAll('text')
-                .data(nodes)
-                .enter().append('text')
-                .attr('dx', 12)
-                .attr('dy', '.35em')
-                .text(d => d.id);
-
-            let activeNode = null;
-
-            svg.on('click', function(event) {
-                if (event.target.tagName !== 'circle') {
-                    resetHighlight();
-                    d3.select('#tooltip').style('display', 'none');
-                }
-            });
-
-            function handleNodeClick(event, d) {
-                if (activeNode && activeNode.id === d.id) {
-                    resetHighlight();
-                    d3.select('#tooltip').style('display', 'none');
-                    return;
-                }
-                activeNode = d;
-                highlightConnections(d);
-                showTooltip(d, event);
+        if (role) {
+            // If role exists, add role node and link to 'Dementia' if not already added
+            if (!nodes.find(node => node.id === role)) {
+                const roleNode = { id: role, group: 3, description: roleDescription };
+                nodes.push(roleNode);
+                roleNodes.push(roleNode);
+                links.push({ source: 'Dementia', target: role });
             }
-
-            function showTooltip(d, event) {
-                const tooltip = d3.select('#tooltip');
-                tooltip.style('left', (event.pageX + 10) + 'px')
-                    .style('top', (event.pageY - 10) + 'px')
-                    .style('display', 'block')
-                    .html(`<strong>${d.id}</strong><br>${d.description}`);
+            // Add drug node and link to role if not already added
+            if (!nodes.find(node => node.id === drug)) {
+                const drugNode = { id: drug, group: 2, description: drugDescription };
+                nodes.push(drugNode);
+                drugNodes.push(drugNode);
+                links.push({ source: role, target: drug });
             }
-
-            function highlightConnections(selectedNode) {
-                node.classed('muted', true);
-                link.classed('muted', true);
-                label.classed('muted', true);
-
-                node.filter(n => n.id === selectedNode.id || links.some(l => (l.source.id === selectedNode.id && l.target.id === n.id) || (l.target.id === selectedNode.id && l.source.id === n.id)))
-                    .classed('muted', false);
-
-                link.filter(l => l.source.id === selectedNode.id || l.target.id === selectedNode.id)
-                    .classed('muted', false);
-
-                label.filter(n => n.id === selectedNode.id || links.some(l => (l.source.id === selectedNode.id && l.target.id === n.id) || (l.target.id === selectedNode.id && l.source.id === n.id)))
-                    .classed('muted', false);
+        } else {
+            // If no role, add drug node and link directly to 'Dementia' if not already added
+            if (!nodes.find(node => node.id === drug)) {
+                const drugNode = { id: drug, group: 2, description: drugDescription };
+                nodes.push(drugNode);
+                drugNodes.push(drugNode);
+                links.push({ source: 'Dementia', target: drug });
             }
+        }
+    });
 
-            function resetHighlight() {
-                activeNode = null;
-                node.classed('muted', false);
-                link.classed('muted', false);
-                label.classed('muted', false);
-            }
+    const width = 1200, height = 900; // Set dimensions for the SVG
 
-            function ticked() {
-                link.attr('x1', d => d.source.x)
-                    .attr('y1', d => d.source.y)
-                    .attr('x2', d => d.target.x)
-                    .attr('y2', d => d.target.y);
+    // Create an SVG element and set its dimensions
+    const svg = d3.select('body').append('svg')
+        .attr('width', width)
+        .attr('height', height);
 
-                node.attr('cx', d => d.x)
-                    .attr('cy', d => d.y);
+    // Initialize the force simulation with nodes
+    const simulation = d3.forceSimulation(nodes)
+        .force('link', d3.forceLink(links).id(d => d.id).distance(150)) // Link force with distance
+        .force('charge', d3.forceManyBody().strength(-150)) // Charge force with negative strength
+        .force('center', d3.forceCenter(width / 2, height / 2)) // Center force
+        .stop(); // Stop the simulation
 
-                label.attr('x', d => d.x)
-                    .attr('y', d => d.y);
-            }
+    const centerX = width / 2; // Calculate center X coordinate
+    const centerY = height / 2; // Calculate center Y coordinate
+    const roleRadius = 250; // Radius for role nodes
+    const drugRadius = 400; // Radius for drug nodes
+    const roleAngleStep = (2 * Math.PI) / roleNodes.length; // Angle step for role nodes
+    const drugAngleStep = (2 * Math.PI) / drugNodes.length; // Angle step for drug nodes
 
-            function dragstarted(event, d) {
-                if (!event.active) simulation.alphaTarget(0.3).restart();
-                d.fx = d.x;
-                d.fy = d.y;
-            }
+    // Position role nodes in a circle
+    roleNodes.forEach((node, i) => {
+        node.fx = centerX + roleRadius * Math.cos(i * roleAngleStep);
+        node.fy = centerY + roleRadius * Math.sin(i * roleAngleStep);
+    });
 
-            function dragged(event, d) {
-                d.fx = event.x;
-                d.fy = event.y;
-            }
+    // Position drug nodes in a circle
+    drugNodes.forEach((node, i) => {
+        node.fx = centerX + drugRadius * Math.cos(i * drugAngleStep);
+        node.fy = centerY + drugRadius * Math.sin(i * drugAngleStep);
+    });
 
-            function dragended(event, d) {
-                if (!event.active) simulation.alphaTarget(0);
-                d.fx = d.x;
-                d.fy = d.y;
-            }
+    // Restart the simulation
+    simulation.nodes(nodes).on('tick', ticked).restart();
+
+    // Create link elements
+    const link = svg.append('g')
+        .attr('class', 'links')
+        .selectAll('line')
+        .data(links)
+        .enter().append('line')
+        .attr('class', 'link');
+
+    // Create node elements
+    const node = svg.append('g')
+        .attr('class', 'nodes')
+        .selectAll('circle')
+        .data(nodes)
+        .enter().append('circle')
+        .attr('class', 'node')
+        .attr('r', 10)
+        .attr('fill', d => d.group === 1 ? '#ff5733' : d.group === 2 ? '#3498db' : '#2ecc71')
+        .on('click', handleNodeClick)
+        .call(d3.drag()
+            .on('start', dragstarted)
+            .on('drag', dragged)
+            .on('end', dragended));
+
+    // Create label elements
+    const label = svg.append('g')
+        .attr('class', 'labels')
+        .selectAll('text')
+        .data(nodes)
+        .enter().append('text')
+        .attr('dx', 12)
+        .attr('dy', '.35em')
+        .text(d => d.id);
+
+    let activeNode = null; // Variable to track the active node
+
+    // Event listener for SVG click to reset highlights
+    svg.on('click', function(event) {
+        if (event.target.tagName !== 'circle') {
+            resetHighlight();
+            d3.select('#tooltip').style('display', 'none');
+        }
+    });
+
+    // Function to handle node click
+    function handleNodeClick(event, d) {
+        if (activeNode && activeNode.id === d.id) {
+            resetHighlight();
+            d3.select('#tooltip').style('display', 'none');
+            return;
+        }
+        activeNode = d;
+        highlightConnections(d);
+        showTooltip(d, event);
+    }
+
+    // Function to show tooltip
+    function showTooltip(d, event) {
+        const tooltip = d3.select('#tooltip');
+        tooltip.style('left', (event.pageX + 10) + 'px')
+            .style('top', (event.pageY - 10) + 'px')
+            .style('display', 'block')
+            .html(`<strong>${d.id}</strong><br>${d.description}`);
+    }
+
+    // Function to highlight connections
+    function highlightConnections(selectedNode) {
+        node.classed('muted', true);
+        link.classed('muted', true);
+        label.classed('muted', true);
+
+        node.filter(n => n.id === selectedNode.id || links.some(l => (l.source.id === selectedNode.id && l.target.id === n.id) || (l.target.id === selectedNode.id && l.source.id === n.id)))
+            .classed('muted', false);
+
+        link.filter(l => l.source.id === selectedNode.id || l.target.id === selectedNode.id)
+            .classed('muted', false);
+
+        label.filter(n => n.id === selectedNode.id || links.some(l => (l.source.id === selectedNode.id && l.target.id === n.id) || (l.target.id === selectedNode.id && l.source.id === n.id)))
+            .classed('muted', false);
+    }
+
+    // Function to reset highlights
+    function resetHighlight() {
+        activeNode = null;
+        node.classed('muted', false);
+        link.classed('muted', false);
+        label.classed('muted', false);
+    }
+
+    function ticked() {
+    // Updates the positions of the links based on the source and target nodes' coordinates
+    link.attr('x1', d => d.source.x)
+        .attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x)
+        .attr('y2', d => d.target.y);
+
+    // Updates the positions of the nodes based on their coordinates
+    node.attr('cx', d => d.x)
+        .attr('cy', d => d.y);
+
+    // Updates the positions of the labels based on the nodes' coordinates
+    label.attr('x', d => d.x)
+        .attr('y', d => d.y);
+}
+
+function dragstarted(event, d) {
+    // Increases the simulation's alpha target to 0.3 and restarts the simulation if it's not already active
+    if (!event.active) simulation.alphaTarget(0.3).restart();
+    // Fixes the node's position to its current coordinates
+    d.fx = d.x;
+    d.fy = d.y;
+}
+
+function dragged(event, d) {
+    // Updates the node's fixed position to the current drag event's coordinates
+    d.fx = event.x;
+    d.fy = event.y;
+}
+
+function dragended(event, d) {
+    // Lowers the simulation's alpha target to 0 if the drag event is not active
+    if (!event.active) simulation.alphaTarget(0);
+    // Keeps the node's position fixed to its current coordinates
+    d.fx = d.x;
+    d.fy = d.y;
+}
         });
     </script>
 </body>

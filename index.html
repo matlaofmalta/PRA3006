@@ -1,294 +1,324 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dementia and Risk Factors</title>
+    <meta charset="UTF-8"> <!-- Sets the character encoding for the document -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures proper rendering and touch zooming on mobile devices -->
+    <title>Dementia and Risk Factors</title> <!-- Sets the title of the webpage -->
     <style>
         /* General styling */
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
+            font-family: Arial, sans-serif; /* Sets the font family for the body */
+            margin: 0; /* Removes default margin */
+            padding: 0; /* Removes default padding */
+            background-color: #f4f4f9; /* Sets the background color */
+            color: #333; /* Sets the text color */
         }
         header {
-            background-image: url('https://media.nature.com/lw767/magazine-assets/d41586-022-00971-1/d41586-022-00971-1_20284456.jpg?as=webp');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 50px 20px;
-            text-align: center;
+            background-image: url('https://media.nature.com/lw767/magazine-assets/d41586-022-00971-1/d41586-022-00971-1_20284456.jpg?as=webp'); /* Sets the background image */
+            background-size: cover; /* Ensures the background image covers the entire header */
+            background-position: center; /* Centers the background image */
+            color: white; /* Sets the text color to white */
+            padding: 50px 20px; /* Adds padding inside the header */
+            text-align: center; /* Centers the text */
         }
         header h1 {
-            margin: 0;
-            font-size: 3rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin: 0; /* Removes default margin */
+            font-size: 3rem; /* Sets the font size */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Adds a shadow to the text */
         }
         .button-container {
-            display: flex;
-            gap: 10px;
-            margin: 20px 0;
-            justify-content: center;
+            display: flex; /* Uses flexbox layout */
+            gap: 10px; /* Adds space between buttons */
+            margin: 20px 0; /* Adds margin above and below the container */
+            justify-content: center; /* Centers the buttons horizontally */
         }
         button {
-            background-color: #6a0dad;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
+            background-color: #6a0dad; /* Sets the background color */
+            color: white; /* Sets the text color */
+            padding: 10px 20px; /* Adds padding inside the button */
+            border: none; /* Removes the border */
+            border-radius: 5px; /* Rounds the corners */
+            cursor: pointer; /* Changes the cursor to a pointer on hover */
+            font-size: 16px; /* Sets the font size */
         }
         button:hover {
-            background-color: #7e32cc;
+            background-color: #7e32cc; /* Changes the background color on hover */
         }
         .content-box {
-            max-width: 800px;
-            margin: 20px auto;
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            max-width: 800px; /* Sets the maximum width */
+            margin: 20px auto; /* Centers the box and adds vertical margin */
+            background-color: white; /* Sets the background color */
+            padding: 20px; /* Adds padding inside the box */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a shadow around the box */
+            border-radius: 8px; /* Rounds the corners */
         }
         .content-box h2 {
-            text-align: left;
-            margin-top: 20px;
-            color: #6a0dad;
+            text-align: left; /* Aligns the text to the left */
+            margin-top: 20px; /* Adds top margin */
+            color: #6a0dad; /* Sets the text color */
         }
         .bubble-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            padding: 20px;
+            display: flex; /* Uses flexbox layout */
+            flex-wrap: wrap; /* Allows the items to wrap to the next line */
+            justify-content: center; /* Centers the items horizontally */
+            gap: 20px; /* Adds space between items */
+            padding: 20px; /* Adds padding inside the container */
         }
         .bubble {
-            display: inline-block;
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            overflow: hidden;
-            text-align: center;
-            vertical-align: middle;
-            position: relative;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            transition: transform 0.3s;
-            background-size: cover;
-            background-position: center;
+            display: inline-block; /* Displays the element as an inline block */
+            width: 150px; /* Sets the width */
+            height: 150px; /* Sets the height */
+            border-radius: 50%; /* Rounds the corners to make a circle */
+            overflow: hidden; /* Hides overflow content */
+            text-align: center; /* Centers the text */
+            vertical-align: middle; /* Aligns the text vertically */
+            position: relative; /* Positions the element relative to its normal position */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a shadow around the bubble */
+            cursor: pointer; /* Changes the cursor to a pointer on hover */
+            transition: transform 0.3s; /* Adds a transition effect for the transform property */
+            background-size: cover; /* Ensures the background image covers the entire bubble */
+            background-position: center; /* Centers the background image */
         }
         .bubble:hover {
-            transform: scale(1.1);
+            transform: scale(1.1); /* Scales the bubble up on hover */
         }
         .bubble span {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            background-color: rgba(0, 0, 0, 0.6);
-            padding: 5px 10px;
-            border-radius: 10px;
-            font-size: 14px;
+            position: absolute; /* Positions the element absolutely within the bubble */
+            bottom: 10px; /* Positions the element 10px from the bottom */
+            left: 50%; /* Centers the element horizontally */
+            transform: translateX(-50%); /* Adjusts the position to be exactly centered */
+            color: white; /* Sets the text color */
+            background-color: rgba(0, 0, 0, 0.6); /* Adds a semi-transparent background */
+            padding: 5px 10px; /* Adds padding inside the span */
+            border-radius: 10px; /* Rounds the corners */
+            font-size: 14px; /* Sets the font size */
         }
         .info-box {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 90%;
-            max-width: 400px;
-            z-index: 1000;
+            display: none; /* Hides the element by default */
+            position: fixed; /* Fixes the position relative to the viewport */
+            top: 50%; /* Centers the element vertically */
+            left: 50%; /* Centers the element horizontally */
+            transform: translate(-50%, -50%); /* Adjusts the position to be exactly centered */
+            background-color: white; /* Sets the background color */
+            padding: 20px; /* Adds padding inside the box */
+            border-radius: 8px; /* Rounds the corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a shadow around the box */
+            width: 90%; /* Sets the width */
+            max-width: 400px; /* Sets the maximum width */
+            z-index: 1000; /* Ensures the element is on top */
         }
         .info-box h2 {
-            color: #6a0dad;
-            margin: 0 0 10px;
+            color: #6a0dad; /* Sets the text color */
+            margin: 0 0 10px; /* Adds margin below the heading */
         }
         .info-box p {
-            margin: 0;
-            line-height: 1.6;
+            margin: 0; /* Removes default margin */
+            line-height: 1.6; /* Sets the line height */
         }
         .info-box .close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-            font-size: 20px;
-            color: #333;
+            position: absolute; /* Positions the element absolutely within the info box */
+            top: 10px; /* Positions the element 10px from the top */
+            right: 10px; /* Positions the element 10px from the right */
+            cursor: pointer; /* Changes the cursor to a pointer on hover */
+            font-size: 20px; /* Sets the font size */
+            color: #333; /* Sets the text color */
         }
         .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
+            display: none; /* Hides the element by default */
+            position: fixed; /* Fixes the position relative to the viewport */
+            top: 0; /* Positions the element at the top */
+            left: 0; /* Positions the element at the left */
+            width: 100%; /* Sets the width to 100% */
+            height: 100%; /* Sets the height to 100% */
+            background-color: rgba(0, 0, 0, 0.5); /* Adds a semi-transparent background */
+            z-index: 999; /* Ensures the element is below the info box */
         }
         .hidden {
-            display: none;
+            display: none; /* Hides the element */
         }
         iframe {
-    width: 100%;
-    height: 900px; /* Adjust as needed */
-    border: none;
-    zoom: 0.6; /* Decrease value to zoom out, e.g., 0.8 for 80% */
-}
+            width: 100%; /* Sets the width to 100% */
+            height: 900px; /* Sets the height */
+            border: none; /* Removes the border */
+            zoom: 0.6; /* Decreases the zoom level */
+        }
     </style>
 </head>
 <body>
     <!-- Header -->
     <header>
-        <h1>Global Dementia and Risk Factors</h1>
+        <h1>Global Dementia and Risk Factors</h1> <!-- Main heading of the page -->
     </header>
 
-    <!-- Buttons -->
-    <div class="button-container">
-        <button onclick="showPage('home')">Home</button>
-        <button onclick="showPage('treatments')">Learn about current treatments</button>
-        <button onclick="showPage('prevalence')">Prevalence of Dementia</button>
-        <button onclick="showPage('resources')">Relevant Resources</button>
-    </div>
+ <!-- Buttons -->
+<div class="button-container">
+    <!-- Button to show the home page content -->
+    <button onclick="showPage('home')">Home</button>
+    <!-- Button to show the treatments page content -->
+    <button onclick="showPage('treatments')">Learn about current treatments</button>
+    <!-- Button to show the prevalence page content -->
+    <button onclick="showPage('prevalence')">Prevalence of Dementia</button>
+    <!-- Button to show the resources page content -->
+    <button onclick="showPage('resources')">Relevant Resources</button>
+</div>
 
-    <!-- Default Content -->
-    <div id="home" class="content-box">
-        <h2>What is Dementia?</h2>
-        <p>Dementia is a decline in cognitive abilities—such as thinking, memory, and reasoning—that significantly disrupts a person's daily life and routines.</p>
+<!-- Default Content -->
+<div id="home" class="content-box">
+    <h2>What is Dementia?</h2>
+    <!-- Description of dementia -->
+    <p>Dementia is a decline in cognitive abilities—such as thinking, memory, and reasoning—that significantly disrupts a person's daily life and routines.</p>
 
-        <h2>What are the different kinds of Dementia?</h2>
-        <ul>
-            <li>Alzheimer's disease</li>
-            <li>Frontotemporal dementia</li>
-            <li>Lewy body dementia</li>
-            <li>Vascular dementia</li>
-            <li>Mixed dementia</li>
-        </ul>
+    <h2>What are the different kinds of Dementia?</h2>
+    <!-- List of different types of dementia -->
+    <ul>
+        <li>Alzheimer's disease</li>
+        <li>Frontotemporal dementia</li>
+        <li>Lewy body dementia</li>
+        <li>Vascular dementia</li>
+        <li>Mixed dementia</li>
+    </ul>
 
-        <h2>What are the signs and symptoms of Dementia?</h2>
-        <ul>
-            <li>Challenges in speaking, comprehending, expressing thoughts, or engaging in reading and writing</li>
-            <li>Getting lost in well-known areas</li>
-            <li>Difficulty managing finances or paying bills responsibly</li>
-            <li>Repeating the same questions</li>
-            <li>Using uncommon words to describe familiar objects</li>
-            <li>Taking extra time to accomplish routine daily tasks</li>
-            <li>Losing enthusiasm for usual activities or events</li>
-            <li>Experiencing hallucinations, delusions, or paranoia</li>
-            <li>Displaying impulsive behavior</li>
-            <li>Showing a lack of concern for others' feelings</li>
-            <li>Experiencing balance issues and difficulties with movement</li>
-        </ul>
+    <h2>What are the signs and symptoms of Dementia?</h2>
+    <!-- List of signs and symptoms of dementia -->
+    <ul>
+        <li>Challenges in speaking, comprehending, expressing thoughts, or engaging in reading and writing</li>
+        <li>Getting lost in well-known areas</li>
+        <li>Difficulty managing finances or paying bills responsibly</li>
+        <li>Repeating the same questions</li>
+        <li>Using uncommon words to describe familiar objects</li>
+        <li>Taking extra time to accomplish routine daily tasks</li>
+        <li>Losing enthusiasm for usual activities or events</li>
+        <li>Experiencing hallucinations, delusions, or paranoia</li>
+        <li>Displaying impulsive behavior</li>
+        <li>Showing a lack of concern for others' feelings</li>
+        <li>Experiencing balance issues and difficulties with movement</li>
+    </ul>
 
-        <h2>Risk factors for Dementia</h2>
-        <div class="bubble-container">
-            <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Noun_depression_2686170.svg');" onclick="showInfo('Mental Depression', 'Mental depression significantly increases the risk of dementia.')">
-                <span>Mental Depression</span>
-            </div>
-            <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/ISO_7001_PI_PF_055.svg');" onclick="showInfo('Old People', 'Age is a significant risk factor for dementia.')">
-                <span>Old People</span>
-            </div>
-            <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Panic_attack_or_head_injury_2686185.svg');" onclick="showInfo('Cranial Trauma', 'Head injuries are linked to an increased risk of dementia.')">
-                <span>Cranial Trauma</span>
-            </div>
-            <div class="bubble" style="background-image: url('https://t3.ftcdn.net/jpg/02/77/17/62/360_F_277176206_LKFyesjjLlt1EpGWVJ8qf6uPOjyThiIt.jpg');" onclick="showInfo('Obesity', 'Obesity is associated with higher risks of vascular dementia.')">
-                <span>Obesity</span>
-            </div>
-            <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/ISO_7001_PI_PF_015.svg');" onclick="showInfo('Smoking', 'Smoking can increase vascular damage and dementia risk.')">
-                <span>Smoking</span>
-            </div>
-            <div class="bubble" style="background-image: url('https://www.pngkey.com/png/detail/119-1197351_alcohol-icon-alcoholic-drink.png');" onclick="showInfo('Alcohol Abuse', 'Excessive alcohol consumption damages brain cells, increasing dementia risk.')">
-                <span>Alcohol Abuse</span>
-            </div>
-            <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Noun_Hearing_Loop_Hadi_Davodpour_28161.svg');" onclick="showInfo('Deafness', 'Hearing loss may lead to cognitive overload and dementia.')">
-                <span>Deafness</span>
-            </div>
-            <div class="bubble" style="background-image: url('https://static.vecteezy.com/system/resources/previews/020/544/252/non_2x/diabetes-icon-design-free-vector.jpg');" onclick="showInfo('Diabetes', 'Uncontrolled diabetes increases the risk of vascular dementia.')">
-                <span>Diabetes</span>
-            </div>
-            <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Sofa_-_Delapouite_-_game-icons.svg');" onclick="showInfo('Sedentary Lifestyle', 'Physical inactivity is a modifiable risk factor for dementia.')">
-                <span>Sedentary Lifestyle</span>
-            </div>
-            <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Bully_-_The_Noun_Project.svg');" onclick="showInfo('Social Isolation', 'Lack of social interaction can contribute to cognitive decline.')">
-                <span>Social Isolation</span>
-            </div>
-            <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Pollution_Noun_Project_6891198.svg');" onclick="showInfo('Air Pollution', 'Exposure to air pollutants can increase the risk of neurological damage.')">
-                <span>Air Pollution</span>
-            </div>
-            <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/BloodVessels_icon.svg');" onclick="showInfo('Arterial Hypertension', 'High blood pressure increases the risk of vascular dementia.')">
-                <span>Arterial Hypertension</span>
-            </div>
+    <h2>Risk factors for Dementia</h2>
+    <!-- Container for risk factor bubbles -->
+    <div class="bubble-container">
+        <!-- Bubble for mental depression risk factor -->
+        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Noun_depression_2686170.svg');" onclick="showInfo('Mental Depression', 'Mental depression significantly increases the risk of dementia.')">
+            <span>Mental Depression</span>
+        </div>
+        <!-- Bubble for old people risk factor -->
+        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/ISO_7001_PI_PF_055.svg');" onclick="showInfo('Old People', 'Age is a significant risk factor for dementia.')">
+            <span>Old People</span>
+        </div>
+        <!-- Bubble for cranial trauma risk factor -->
+        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Panic_attack_or_head_injury_2686185.svg');" onclick="showInfo('Cranial Trauma', 'Head injuries are linked to an increased risk of dementia.')">
+            <span>Cranial Trauma</span>
+        </div>
+        <!-- Bubble for obesity risk factor -->
+        <div class="bubble" style="background-image: url('https://t3.ftcdn.net/jpg/02/77/17/62/360_F_277176206_LKFyesjjLlt1EpGWVJ8qf6uPOjyThiIt.jpg');" onclick="showInfo('Obesity', 'Obesity is associated with higher risks of vascular dementia.')">
+            <span>Obesity</span>
+        </div>
+        <!-- Bubble for smoking risk factor -->
+        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/ISO_7001_PI_PF_015.svg');" onclick="showInfo('Smoking', 'Smoking can increase vascular damage and dementia risk.')">
+            <span>Smoking</span>
+        </div>
+        <!-- Bubble for alcohol abuse risk factor -->
+        <div class="bubble" style="background-image: url('https://www.pngkey.com/png/detail/119-1197351_alcohol-icon-alcoholic-drink.png');" onclick="showInfo('Alcohol Abuse', 'Excessive alcohol consumption damages brain cells, increasing dementia risk.')">
+            <span>Alcohol Abuse</span>
+        </div>
+        <!-- Bubble for deafness risk factor -->
+        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Noun_Hearing_Loop_Hadi_Davodpour_28161.svg');" onclick="showInfo('Deafness', 'Hearing loss may lead to cognitive overload and dementia.')">
+            <span>Deafness</span>
+        </div>
+        <!-- Bubble for diabetes risk factor -->
+        <div class="bubble" style="background-image: url('https://static.vecteezy.com/system/resources/previews/020/544/252/non_2x/diabetes-icon-design-free-vector.jpg');" onclick="showInfo('Diabetes', 'Uncontrolled diabetes increases the risk of vascular dementia.')">
+            <span>Diabetes</span>
+        </div>
+        <!-- Bubble for sedentary lifestyle risk factor -->
+        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Sofa_-_Delapouite_-_game-icons.svg');" onclick="showInfo('Sedentary Lifestyle', 'Physical inactivity is a modifiable risk factor for dementia.')">
+            <span>Sedentary Lifestyle</span>
+        </div>
+        <!-- Bubble for social isolation risk factor -->
+        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Bully_-_The_Noun_Project.svg');" onclick="showInfo('Social Isolation', 'Lack of social interaction can contribute to cognitive decline.')">
+            <span>Social Isolation</span>
+        </div>
+        <!-- Bubble for air pollution risk factor -->
+        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Pollution_Noun_Project_6891198.svg');" onclick="showInfo('Air Pollution', 'Exposure to air pollutants can increase the risk of neurological damage.')">
+            <span>Air Pollution</span>
+        </div>
+        <!-- Bubble for arterial hypertension risk factor -->
+        <div class="bubble" style="background-image: url('https://commons.wikimedia.org/wiki/Special:Redirect/file/BloodVessels_icon.svg');" onclick="showInfo('Arterial Hypertension', 'High blood pressure increases the risk of vascular dementia.')">
+            <span>Arterial Hypertension</span>
         </div>
     </div>
+</div>
 
-    <!-- Treatments Content -->
-    <div id="treatments" class="content-box hidden">
-        <h2>Current Treatments for Dementia</h2>
-        <iframe src="https://matlaofmalta.github.io/PRA3006/Network.html"></iframe>
-    </div>
+<!-- Treatments Content -->
+<div id="treatments" class="content-box hidden">
+    <h2>Current Treatments for Dementia</h2>
+    <!-- Embedded content for current treatments -->
+    <iframe src="https://matlaofmalta.github.io/PRA3006/Network.html"></iframe>
+</div>
 
-    <!-- Prevalence Content -->
-    <div id="prevalence" class="content-box hidden">
-        <h2>Global Prevalence of Dementia</h2>
-        <iframe src="https://matlaofmalta.github.io/PRA3006/WorldMap.html"></iframe>
-    </div>
+<!-- Prevalence Content -->
+<div id="prevalence" class="content-box hidden">
+    <h2>Global Prevalence of Dementia</h2>
+    <!-- Embedded content for global prevalence -->
+    <iframe src="https://matlaofmalta.github.io/PRA3006/WorldMap.html"></iframe>
+</div>
 
-    <!-- Resources Content -->
-    <div id="resources" class="content-box hidden">
-        <h2>Relevant Resources</h2>
-        <p>Here are some resources to learn more about dementia and its risk factors:</p>
-        <ul>
-            <li><a href="https://www.alz.org/" target="_blank">Alzheimer's Association</a></li>
-            <li><a href="https://www.who.int/news-room/fact-sheets/detail/dementia" target="_blank">WHO Fact Sheet on Dementia</a></li>
-            <li><a href="https://www.wikidata.org/wiki/Wikidata:Main_Page" target="_blank">Dementia Research Portal</a></li>
-            <li><a href="https://www.alzint.org/resource/numbers-of-people-with-dementia-worldwide/" target="_blank">Numbers of People with Dementia Worldwide</a></li>
-        </ul>
-        <h2>Authors' contacts:</h2>
-        <ul>
-            <li>t.dakova@student.maastrichtuniversity.nl</li>
-            <li>marie.schneider@student.maastrichtuniversity.nl</li>
-            <li>e.deregnaulddebellescize@student.maastrichtuniversity.nl</li>
-            <li>m.pradeep@student.maastrichtuniversity.nl</li>
-        </ul>
-    </div>
+<!-- Resources Content -->
+<div id="resources" class="content-box hidden">
+    <h2>Relevant Resources</h2>
+    <!-- Description of the resources section -->
+    <p>Here are some resources to learn more about dementia and its risk factors:</p>
+    <ul>
+        <!-- List of links to external resources -->
+        <li><a href="https://www.alz.org/" target="_blank">Alzheimer's Association</a></li>
+        <li><a href="https://www.who.int/news-room/fact-sheets/detail/dementia" target="_blank">WHO Fact Sheet on Dementia</a></li>
+        <li><a href="https://www.wikidata.org/wiki/Wikidata:Main_Page" target="_blank">Dementia Research Portal</a></li>
+        <li><a href="https://www.alzint.org/resource/numbers-of-people-with-dementia-worldwide/" target="_blank">Numbers of People with Dementia Worldwide</a></li>
+    </ul>
+    <h2>Authors' contacts:</h2>
+    <!-- List of authors' contact information -->
+    <ul>
+        <li>t.dakova@student.maastrichtuniversity.nl</li>
+        <li>marie.schneider@student.maastrichtuniversity.nl</li>
+        <li>e.deregnaulddebellescize@student.maastrichtuniversity.nl</li>
+        <li>m.pradeep@student.maastrichtuniversity.nl</li>
+    </ul>
+    <h2>Liscence Type:</h2>
+    <!-- List the liscence type -->
+    <ul>
+        <li>Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)</li>
+    </ul>
+</div>
 
-    <!-- Info Box -->
-    <div class="overlay" id="overlay" onclick="hideInfo()"></div>
-    <div class="info-box" id="info-box">
-        <h2 id="riskFactorName"></h2>
-        <p id="riskFactorDescription"></p>
-        <span class="close" onclick="hideInfo()">&times;</span>
-    </div>
+<!-- Info Box -->
+<div class="overlay" id="overlay" onclick="hideInfo()"></div>
+<div class="info-box" id="info-box">
+    <h2 id="riskFactorName"></h2> <!-- Placeholder for the risk factor name -->
+    <p id="riskFactorDescription"></p> <!-- Placeholder for the risk factor description -->
+    <span class="close" onclick="hideInfo()">&times;</span> <!-- Close button for the info box -->
+</div>
 
-    <script>
-        // Function to show detailed information for risk factors
-        function showInfo(title, description) {
-            document.getElementById('riskFactorName').innerText = title;
-            document.getElementById('riskFactorDescription').innerText = description;
-            document.getElementById('info-box').style.display = 'block';
-            document.getElementById('overlay').style.display = 'block';
-        }
+<script>
+    // Function to show detailed information for risk factors
+    function showInfo(title, description) {
+        document.getElementById('riskFactorName').innerText = title; // Set the title of the risk factor
+        document.getElementById('riskFactorDescription').innerText = description; // Set the description of the risk factor
+        document.getElementById('info-box').style.display = 'block'; // Display the info box
+        document.getElementById('overlay').style.display = 'block'; // Display the overlay
+    }
 
-        // Function to hide the detailed info box
-        function hideInfo() {
-            document.getElementById('info-box').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-        }
+    // Function to hide the detailed info box
+    function hideInfo() {
+        document.getElementById('info-box').style.display = 'none'; // Hide the info box
+        document.getElementById('overlay').style.display = 'none'; // Hide the overlay
+    }
 
-        // Function to show the selected page
-        function showPage(pageId) {
-            const contentBoxes = document.querySelectorAll('.content-box');
-            contentBoxes.forEach(box => box.classList.add('hidden'));
+    // Function to show the selected page
+    function showPage(pageId) {
+        const contentBoxes = document.querySelectorAll('.content-box'); // Select all content boxes
+        contentBoxes.forEach(box => box.classList.add('hidden')); // Hide all content boxes
 
-            document.getElementById(pageId).classList.remove('hidden');
-        }
-    </script>
+        document.getElementById(pageId).classList.remove('hidden'); // Show the selected content box
+    }
+</script>
 </body>
 </html>
