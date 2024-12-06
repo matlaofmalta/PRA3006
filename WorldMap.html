@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" /> <!-- Link to Leaflet CSS -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script> <!-- Link to Leaflet JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Link to jQuery -->
+            <!--DOM Manipulation: Select & manipulate HTML elements -->
+            <!--Event Handling: Simplify handling events (eg clicks)-->
     <style>
         /* Internal CSS for styling the page */
         /* Basic styles for the body */
@@ -19,7 +21,7 @@
         /* Styles for the legend */
         .legend {
             background: white;
-            padding: 10px;
+            padding: 10px; /* Removes default padding (space between border & content) */
             line-height: 25px;
             color: #555;
             box-shadow: 0 0 15px rgba(0,0,0,0.2);
@@ -106,18 +108,18 @@
 
             // Get data for the selected year
             var yearData = dataByYear[year] || [];
-            yearData.forEach(function(entry) {
-                var coordinates = regionCoordinates[entry.location];
+            yearData.forEach(function(entry) { // Retrieve data for selected year
+                var coordinates = regionCoordinates[entry.location]; // Get coordinates for entry location
                 if (coordinates) {
                     // Add circles to the map based on prevalence
                     L.circle(coordinates, {
-                        color: getColor(entry.prevalence),
-                        fillColor: getColor(entry.prevalence),
+                        color: getColor(entry.prevalence), // Colour border according to prelevance
+                        fillColor: getColor(entry.prevalence), // Colour inside according to prelevance
                         fillOpacity: 0.5,
-                        radius: entry.prevalence * 50000 // Scale radius
-                    }).bindPopup('<b>Location:</b> ' + entry.location +
-                                 '<br><b>Prevalence:</b> ' + entry.prevalence + ' million')
-                      .addTo(map);
+                        radius: entry.prevalence * 50000 // Scale radius based on prelevance
+                    }).bindPopup('<b>Location:</b> ' + entry.location + // Bind popup displaying the location
+                                 '<br><b>Prevalence:</b> ' + entry.prevalence + ' million') // Bind the prevalence
+                      .addTo(map); // add the circle to the map
                 }
             });
         }
@@ -142,6 +144,7 @@
         }
 
         // SPARQL query to fetch dementia prevalence data
+        // 'SERVICE wikibase:label'= enures HUMAN-readable labels & descriptions retrieved for the matched entities.
         var sparqlQuery = `
         SELECT ?prevalence ?locationLabel ?pointInTime WHERE {
             wd:Q131303235 p:P1193 ?statement.
@@ -161,7 +164,7 @@
             dataType: 'json',
             data: {
                 query: sparqlQuery,
-                format: 'json'
+                format: 'json' // JSON parse :Used for data exchange> transforms querry to TEXT 
             },
             success: function(data) {
                 var results = data.results.bindings;
