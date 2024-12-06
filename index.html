@@ -9,7 +9,7 @@
         body {
             font-family: Arial, sans-serif; /* Sets the font family for the body */
             margin: 0; /* Removes default margin */
-            padding: 0; /* Removes default padding */
+            padding: 0; /* Removes default padding (space between border & content.) */
             background-color: #f4f4f9; /* Sets the background color */
             color: #333; /* Sets the text color */
         }
@@ -18,12 +18,12 @@
             background-size: cover; /* Ensures the background image covers the entire header */
             background-position: center; /* Centers the background image */
             color: white; /* Sets the text color to white */
-            padding: 50px 20px; /* Adds padding inside the header */
+            padding: 50px 20px; /* Adds padding inside the header (px= pixels)*/
             text-align: center; /* Centers the text */
         }
         header h1 {
             margin: 0; /* Removes default margin */
-            font-size: 3rem; /* Sets the font size */
+            font-size: 3rem; /* Sets the font size (em= relative to parent size)*/
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Adds a shadow to the text */
         }
         .button-container {
@@ -151,7 +151,7 @@
     </header>
 
  <!-- Buttons -->
-<div class="button-container">
+<div class="button-container"> <!-- div= new CSS format-->
     <!-- Button to show the home page content -->
     <button onclick="showPage('home')">Home</button>
     <!-- Button to show the treatments page content -->
@@ -170,7 +170,7 @@
 
     <h2>What are the different kinds of Dementia?</h2>
     <!-- List of different types of dementia -->
-    <ul>
+    <ul>  <!--Bullet point List-->
         <li>Alzheimer's disease</li>
         <li>Frontotemporal dementia</li>
         <li>Lewy body dementia</li>
@@ -180,7 +180,7 @@
 
     <h2>What are the signs and symptoms of Dementia?</h2>
     <!-- List of signs and symptoms of dementia -->
-    <ul>
+    <ul>   <!--Bullet point List-->
         <li>Challenges in speaking, comprehending, expressing thoughts, or engaging in reading and writing</li>
         <li>Getting lost in well-known areas</li>
         <li>Difficulty managing finances or paying bills responsibly</li>
@@ -252,7 +252,7 @@
 <div id="treatments" class="content-box hidden">
     <h2>Current Treatments for Dementia</h2>
     <!-- Embedded content for current treatments -->
-    <iframe src="https://matlaofmalta.github.io/PRA3006/Network.html"></iframe>
+    <iframe src="https://matlaofmalta.github.io/PRA3006/Network.html"></iframe> <!--iframe=embeds another document-->
 </div>
 
 <!-- Prevalence Content -->

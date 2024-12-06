@@ -2,42 +2,42 @@
 <html lang="en">
 <head>
     <!-- Metadata about the document -->
-    <meta charset="UTF-8"> <!-- Specifies the character encoding -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures proper scaling on different devices -->
+    <meta charset="UTF-8"> <!-- Specifies the character encoding (UTF= all characters in world)-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures scaling on all devices -->
     <title>Dementia Drug Network</title> <!-- Title of the document -->
     <script src="https://d3js.org/d3.v7.min.js"></script> <!-- Includes the D3.js library -->
     <style>
         /* CSS styles for various elements */
         .node {
-            cursor: pointer; /* Changes cursor to pointer when hovering over nodes */
+            cursor: pointer; /* Changes cursor to hand pointer when hovering over nodes */
         }
         body {
             font-family: Arial, sans-serif; /* Sets the font for the body */
-            margin: 0;
-            padding: 0;
+            margin: 0; /* Removes default margin */
+            padding: 0; /* Removes default padding (space between border & content) */
             color: #333; /* Text color */
         }
-        .link {
+        .link { /* Lines connecting nodes */
             fill: none;
             stroke: #999; /* Link color */
             stroke-opacity: 0.6; /* Link opacity */
             stroke-width: 1.5px; /* Link width */
         }
         .muted {
-            opacity: 0.1; /* Reduced opacity for muted elements */
+            opacity: 0.1; /* For transpaent background nodes when clicking */
         }
         text {
             font-size: 14px; /* Font size for text elements */
             pointer-events: none; /* Disables pointer events on text */
         }
-        .tooltip {
+        .tooltip { /* pop up text when clicking nodes*/
             position: absolute;
             background-color: #f9f9f9; /* Tooltip background color */
             border: 1px solid #ccc; /* Tooltip border */
-            padding: 10px; /* Tooltip padding */
+            padding: 10px; /* Tooltip padding (space between border & content)*/
             border-radius: 5px; /* Rounded corners for tooltip */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Tooltip shadow */
-            pointer-events: none; /* Disables pointer events on tooltip */
+            pointer-events: none; /* Disables pointer events on tooltip (only works when clicking) */
             font-size: 14px; /* Tooltip font size */
             max-width: 300px; /* Maximum width for tooltip */
             display: none; /* Initially hides the tooltip */
@@ -46,7 +46,7 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            padding: 10px;
+            padding: 10px; /* Space between border & content */
             background-color: #f9f9f9; /* Legend box background color */
             border: 2px solid #ccc; /* Legend box border */
             border-radius: 8px; /* Rounded corners for legend box */
@@ -63,7 +63,7 @@
             margin-bottom: 5px; /* Margin below each legend item */
         }
         .legend-item:last-child {
-            margin-bottom: 0; /* Removes margin for the last legend item */
+            margin-bottom: 0; /* Removes margin for the last legend item (improve layout: text in 1 line)*/
         }
         .legend-color {
             width: 18px;
@@ -80,7 +80,7 @@
     <div id="legend" class="legend-box">
         <div class="legend-title">Legend</div>
         <div class="legend-item">
-            <div class="legend-color" style="background-color: #ff5733;"></div>
+            <div class="legend-color" style="background-color: #ff5733;"></div> <!-- Legend colours-->
             <div>Dementia</div>
         </div>
         <div class="legend-item">
@@ -94,6 +94,9 @@
     </div>
     <script>
         // SPARQL query to fetch data with descriptions
+        /* 'WHERE'= Only matches drugs where "medical condition treated" (P2175) is "dementia" (Q83030).*/  
+        /* Optionally matches roles/functions (P2868) related to the drug.*/  
+        /* 'SERVICE wikibase:label'= enures HUMAN-readable labels & descriptions retrieved for the matched entities.*/
         const sparqlQuery = `
         SELECT ?drug ?drugLabel ?drugDescription ?role ?roleLabel ?roleDescription WHERE {
             ?drug wdt:P2175 wd:Q83030.  # P2175 is "medical condition treated" and Q83030 is "dementia"
@@ -113,14 +116,15 @@
 
 // Function to fetch data from the SPARQL endpoint
 async function fetchData() {
+            // Construct the full URL for the SPARQL query
             const url = endpointUrl + '?query=' + encodeURIComponent(sparqlQuery);
-            const response = await fetch(url, {
+            const response = await fetch(url, { // Send a fetch request to the SPARQL endpoint
                 headers: {
-                    'Accept': 'application/sparql-results+json'
+                    'Accept': 'application/sparql-results+json' // Specify the response 
                 }
             });
-            const data = await response.json();
-            return data.results.bindings;
+            const data = await response.json(); // JSON parse :Used for data exchange> transforms querry to TEXT 
+            return data.results.bindings;  // Return the results from the response
         }
 
        // Process the fetched data
@@ -155,12 +159,12 @@ fetchData().then(data => {
             }
         } else {
             // If no role, add drug node and link directly to 'Dementia' if not already added
-            if (!nodes.find(node => node.id === drug)) {
-                const drugNode = { id: drug, group: 2, description: drugDescription };
-                nodes.push(drugNode);
+            if (!nodes.find(node => node.id === drug)) { // Create a new drug node with its id, group, and description
+                const drugNode = { id: drug, group: 2, description: drugDescription }; // Add the new drug node to the nodes array
+                nodes.push(drugNode);  // Add the new drug node to the drugNodes array
                 drugNodes.push(drugNode);
                 links.push({ source: 'Dementia', target: drug });
-            }
+            } // Create a link from 'Dementia' to the new drug node and add it to the links array
         }
     });
 
@@ -171,11 +175,11 @@ fetchData().then(data => {
         .attr('width', width)
         .attr('height', height);
 
-    // Initialize the force simulation with nodes
+    // Initialize the force simulation with nodes (to make graph symetric and harmonious)
     const simulation = d3.forceSimulation(nodes)
         .force('link', d3.forceLink(links).id(d => d.id).distance(150)) // Link force with distance
         .force('charge', d3.forceManyBody().strength(-150)) // Charge force with negative strength
-        .force('center', d3.forceCenter(width / 2, height / 2)) // Center force
+        .force('center', d3.forceCenter(width / 2, height / 2)) // Center force > attracts nodes to center of the SVG (graph)
         .stop(); // Stop the simulation
 
     const centerX = width / 2; // Calculate center X coordinate
@@ -197,7 +201,7 @@ fetchData().then(data => {
         node.fy = centerY + drugRadius * Math.sin(i * drugAngleStep);
     });
 
-    // Restart the simulation
+    // Restart the simulation > places back nodes after page refresh
     simulation.nodes(nodes).on('tick', ticked).restart();
 
     // Create link elements
@@ -212,13 +216,13 @@ fetchData().then(data => {
     const node = svg.append('g')
         .attr('class', 'nodes')
         .selectAll('circle')
-        .data(nodes)
-        .enter().append('circle')
+        .data(nodes) // Bind the nodes data to the selection
+        .enter().append('circle') // For each data point, append a new circle element
         .attr('class', 'node')
         .attr('r', 10)
         .attr('fill', d => d.group === 1 ? '#ff5733' : d.group === 2 ? '#3498db' : '#2ecc71')
-        .on('click', handleNodeClick)
-        .call(d3.drag()
+        .on('click', handleNodeClick) // Set the fill color based on the node's group
+        .call(d3.drag() // Enable dragging for the nodes
             .on('start', dragstarted)
             .on('drag', dragged)
             .on('end', dragended));
@@ -227,11 +231,11 @@ fetchData().then(data => {
     const label = svg.append('g')
         .attr('class', 'labels')
         .selectAll('text')
-        .data(nodes)
-        .enter().append('text')
-        .attr('dx', 12)
-        .attr('dy', '.35em')
-        .text(d => d.id);
+        .data(nodes) // Bind the nodes data to the selection
+        .enter().append('text') // For each data point, append a new text element
+        .attr('dx', 12) 
+        .attr('dy', '.35em') // Set the y-offset of the text relative to the node
+        .text(d => d.id); // Set the text content to the id of the node
 
     let activeNode = null; // Variable to track the active node
 
@@ -243,7 +247,7 @@ fetchData().then(data => {
         }
     });
 
-    // Function to handle node click
+    // Function to handle node click> allows to move them arround
     function handleNodeClick(event, d) {
         if (activeNode && activeNode.id === d.id) {
             resetHighlight();
@@ -255,13 +259,13 @@ fetchData().then(data => {
         showTooltip(d, event);
     }
 
-    // Function to show tooltip
-    function showTooltip(d, event) {
+    // Function to show tooltip (pop up text description)
+    function showTooltip(d, event) { // Select the tooltip element with the ID 'tooltip'
         const tooltip = d3.select('#tooltip');
-        tooltip.style('left', (event.pageX + 10) + 'px')
+        tooltip.style('left', (event.pageX + 10) + 'px') // Set the position of the tooltip
             .style('top', (event.pageY - 10) + 'px')
-            .style('display', 'block')
-            .html(`<strong>${d.id}</strong><br>${d.description}`);
+            .style('display', 'block') // add text in a box
+            .html(`<strong>${d.id}</strong><br>${d.description}`); // Give tooltip HTML: node id + description
     }
 
     // Function to highlight connections
